@@ -4,10 +4,10 @@ import Foundation
 /// WriteStream is a wrapper around objects the CoreFoundation framework provides to open and read from a stream (CFWriteStream). 
 ///
 /// - [Stream.swift](https://github.com/apple/swift-corelibs-foundation/blob/main/Sources/Foundation/Stream.swift#L126)
-/// - [CFWriteStream](https://developer.apple.com/documentation/corefoundation/cfreadstream-ri6)
-class OStream {
+/// - [CFWriteStream](https://developer.apple.com/documentation/corefoundation/cfwritestream-rc8)
+class WriteStream {
 
-	/// A CFWriteStream to open and read from.
+	/// A CFWriteStream to open and write to.
 	var stream: CFWriteStream?
 
 	/// The RunLoop mode to be used when scheduling the stream on the RunLoop.
@@ -16,11 +16,11 @@ class OStream {
 	/// A callback that is called everytime there is an event in the stream. 	
 	private var callback: CFWriteStreamClientCallBack = { stream, event, info in
 		switch event {
-			case .openCompleted: print("Stream Event == .openCompleted")
-			case .hasBytesAvailable: print("Stream Event == .hasBytesAvailable")
-			case .canAcceptBytes: print("Stream Event == .canAcceptBytes")
-			case .errorOccurred: print("Stream Event == .errorOccurred")
-			case .endEncountered: print("Stream Event == .endEncountered")
+			case .openCompleted: print("WriteStream Event == .openCompleted")
+			case .hasBytesAvailable: print("WriteStream Event == .hasBytesAvailable")
+			case .canAcceptBytes: print("WriteStream Event == .canAcceptBytes")
+			case .errorOccurred: print("WriteStream Event == .errorOccurred")
+			case .endEncountered: print("WriteStream Event == .endEncountered")
 			default: break
 		}
 	}
@@ -45,9 +45,9 @@ class OStream {
 		let _: Bool = CFWriteStreamSetClient(stream, events, callback, &context)
 	}
 
-	/// Open the stream before reading from it.
+	/// Open the stream before writing to it.
 	///
-	/// - Returns: A true if stream opened false otherwise.
+	/// - Returns: True if stream opened false otherwise.
 	@discardableResult func open() ->  Bool {
 		return CFWriteStreamOpen(stream)
 	}	

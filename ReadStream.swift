@@ -1,7 +1,7 @@
 import CoreFoundation
 import Foundation
 
-/// ReadStream is a wrapper around objects the CoreFoundation framework provides to open and read from a stream (CFReadStream). 
+/// ReadStream is a wrapper around CoreFoundation objects that provide open and read from a stream (CFReadStream). 
 ///
 /// - [Stream.swift](https://github.com/apple/swift-corelibs-foundation/blob/main/Sources/Foundation/Stream.swift#L126)
 /// - [CFReadStream](https://developer.apple.com/documentation/corefoundation/cfreadstream-ri6)
@@ -16,11 +16,11 @@ class ReadStream {
 	/// A callback that is called everytime there is an event in the stream. 	
 	private var callback: CFReadStreamClientCallBack = { stream, event, info in
 		switch event {
-			case .openCompleted: print("Stream Event == .openCompleted")
+			case .openCompleted: print("ReadStream Event == .openCompleted")
 			case .hasBytesAvailable: print("Stream Event == .hasBytesAvailable")
-			case .canAcceptBytes: print("Stream Event == .canAcceptBytes")
-			case .errorOccurred: print("Stream Event == .errorOccurred")
-			case .endEncountered: print("Stream Event == .endEncountered")
+			case .canAcceptBytes: print("ReadStream Event == .canAcceptBytes")
+			case .endEncountered: print("ReadStream Event == .endEncountered")
+			case .errorOccurred: print("ReadStream Event == .errorOccurred")
 			default: break
 		}
 	}
@@ -47,7 +47,7 @@ class ReadStream {
 
 	/// Open the stream before reading from it.
 	///
-	/// - Returns: A true if stream opened false otherwise.
+	/// - Returns: True if stream opened false otherwise.
 	@discardableResult func open() ->  Bool {
 		return CFReadStreamOpen(stream)
 	}	
@@ -92,19 +92,3 @@ class ReadStream {
 		return string
 	}
 }
-
-/// Create a new read stream
-let readStream = ReadStream(filePath: "file:///path/to/file.txt")
-
-/// Schedule the read stream in a run loop to receive callback events
-readStream.schedule()
-
-/// Check if the stream is open
-if readStream.open() {
-
-	/// If the read function returns a string print it to the stdin
-	readStream.read().flatMap { string in 
-		print(string)
-	}
-}
-
