@@ -27,6 +27,8 @@ Create and executable that links ReadStream and WriteStream modules
 $ swiftc -o *.swift -I ReadStream -I WriteStream
 ```
 
+Edit `main.swift` and change the variable `filePath` to include the correct path to `file.txt`.
+
 Run the program:
 ```bash 
 $ ./program
